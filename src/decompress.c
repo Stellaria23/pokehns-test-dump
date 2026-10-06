@@ -1210,7 +1210,7 @@ void LoadSpecialPokePicIsEgg(void *dest, s32 species, u32 personality, bool8 isF
                 }
             }
             else
-                DecompressDataWithHeaderWram(gSpeciesInfo[species].frontPic, dest);
+                DecompressDataWithHeaderWram(gSpeciesInfo[species].backPic, dest);
             */
             DecompressDataWithHeaderWram(gSpeciesInfo[species].backPic, dest);
         else
