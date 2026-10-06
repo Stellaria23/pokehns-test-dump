@@ -4007,7 +4007,8 @@ static void CreateWaveformSprites(void)
 
 static void RefreshDisplayMonData(void)
 {
-    LoadDisplayMonGfx(sStorage->displayMonSpecies, sStorage->displayMonPersonality, sStorage->displayMonIsEgg, FALSE); // Untested, may look awful
+    bool32 isShiny = GetMonData(&gPlayerParty[sCursorPosition], MON_DATA_IS_SHINY);
+    LoadDisplayMonGfx(sStorage->displayMonSpecies, sStorage->displayMonPersonality, sStorage->displayMonIsEgg, isShiny); // Untested, may look awful
     PrintDisplayMonInfo();
     UpdateWaveformAnimation();
     ScheduleBgCopyTilemapToVram(0);
