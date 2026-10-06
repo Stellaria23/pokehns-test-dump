@@ -652,6 +652,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
     u16 species;
     u32 personality;
     bool32 isShiny;
+    isShiny = GetMonData(mon, MON_DATA_IS_SHINY);
 
     switch (sPokeblockFeed->loadGfxState)
     {
@@ -659,7 +660,7 @@ static bool8 LoadMonAndSceneGfx(struct Pokemon *mon)
         // Load mon gfx
         species = GetMonData(mon, MON_DATA_SPECIES_OR_EGG);
         personality = GetMonData(mon, MON_DATA_PERSONALITY);
-        HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->spritesGfx[B_POSITION_OPPONENT_LEFT], species, personality);
+        HandleLoadSpecialPokePic(TRUE, gMonSpritesGfxPtr->spritesGfx[B_POSITION_OPPONENT_LEFT], species, personality, isShiny);
         sPokeblockFeed->loadGfxState++;
         break;
     case 1:

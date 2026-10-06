@@ -4713,7 +4713,8 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                                      gMonSpritesGfxPtr->spritesGfx[B_POSITION_OPPONENT_LEFT],
                                      summary->species,
                                      summary->pid,
-                                     summary->isEgg);
+                                     summary->isEgg,
+                                     summary->isShiny);
         }
         else
         {
@@ -4723,7 +4724,8 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                                          gMonSpritesGfxPtr->spritesGfx[B_POSITION_OPPONENT_LEFT],
                                          summary->species,
                                          summary->pid,
-                                         summary->isEgg);
+                                         summary->isEgg,
+                                         summary->isShiny);
             }
             else
             {
@@ -4731,7 +4733,8 @@ static u8 LoadMonGfxAndSprite(struct Pokemon *mon, s16 *state)
                                          MonSpritesGfxManager_GetSpritePtr(MON_SPR_GFX_MANAGER_A, B_POSITION_OPPONENT_LEFT),
                                          summary->species,
                                          summary->pid,
-                                         summary->isEgg);
+                                         summary->isEgg,
+                                         summary->isShiny);
             }
         }
         (*state)++;

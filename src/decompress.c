@@ -249,14 +249,14 @@ void DecompressPicFromTable(const struct CompressedSpriteSheet *src, void *buffe
     DecompressDataWithHeaderWram(src->data, buffer);
 }
 
-void HandleLoadSpecialPokePic(bool32 isFrontPic, void *dest, s32 species, u32 personality)
+void HandleLoadSpecialPokePic(bool32 isFrontPic, void *dest, s32 species, u32 personality, bool32 isShiny)
 {
-    LoadSpecialPokePicIsEgg(dest, species, personality, isFrontPic, FALSE);
+    LoadSpecialPokePicIsEgg(dest, species, personality, isFrontPic, FALSE, isShiny);
 }
 
-void HandleLoadSpecialPokePicIsEgg(bool32 isFrontPic, void *dest, s32 species, u32 personality, bool32 isEgg)
+void HandleLoadSpecialPokePicIsEgg(bool32 isFrontPic, void *dest, s32 species, u32 personality, bool32 isEgg, bool32 isShiny)
 {
-    LoadSpecialPokePicIsEgg(dest, species, personality, isFrontPic, isEgg);
+    LoadSpecialPokePicIsEgg(dest, species, personality, isFrontPic, isEgg, isShiny);
 }
 
 //  Wrapper function for all decompression calls using formats with headers
@@ -1129,12 +1129,23 @@ static bool32 isModeSymDelta(enum CompressionMode mode)
     return FALSE;
 }
 
-void LoadSpecialPokePic(void *dest, s32 species, u32 personality, bool8 isFrontPic)
+void LoadSpecialPokePic(void *dest, s32 species, u32 personality, bool8 isFrontPic, bool32 isShiny)
 {
-    LoadSpecialPokePicIsEgg(dest, species, personality, isFrontPic, FALSE);
+    LoadSpecialPokePicIsEgg(dest, species, personality, isFrontPic, FALSE, isShiny);
 }
 
-void LoadSpecialPokePicIsEgg(void *dest, s32 species, u32 personality, bool8 isFrontPic, bool32 isEgg)
+
+/*
+    - Since the sprite and palette loadings are handled separately, an additional bool32 parameter
+    is added to test whether to load the alt shiny sprite or not.
+    - This means that every function that calls this function must provide that bool32. The palette
+    is often loaded right after the sprite, so it's usually not an issue.
+    - This assumes you're using the shinyModern implementation of HnS, so the palettes are assigned
+    in the PKMN's species info and can be defined in src/data/graphics/pokemon.h. You can either 
+    define the sprites in a new header file, or at the top of decompress.c. Do not add it to 
+    src/data/graphics/pokemon.h, or any other shared header.
+*/
+void LoadSpecialPokePicIsEgg(void *dest, s32 species, u32 personality, bool8 isFrontPic, bool32 isEgg, bool32 isShiny)
 {
     species = SanitizeSpeciesId(species);
     if (species == SPECIES_UNOWN)
@@ -1149,24 +1160,58 @@ void LoadSpecialPokePicIsEgg(void *dest, s32 species, u32 personality, bool8 isF
     }
     else if (isFrontPic)
     {
-    #if P_GENDER_DIFFERENCES && !P_GBA_STYLE_SPECIES_GFX
+    #if P_GENDER_DIFFERENCES && !P_GBA_STYLE_SPECIES_GFX // FALSE, in default HnS settings
         if (gSpeciesInfo[species].frontPicFemale != NULL && IsPersonalityFemale(species, personality))
             DecompressDataWithHeaderWram(gSpeciesInfo[species].frontPicFemale, dest);
         else
     #endif
         if (gSpeciesInfo[species].frontPic != NULL)
+            /*
+            // Replace the code line below with this:
+            if(isShiny && gSaveBlock3Ptr != NULL && gSaveBlock3Ptr->challengeSettings.tx_Features_ShinyColors)
+            {
+                switch(species)
+                {
+                    case SPECIES_LUGIA: // Example with Shadow Lugia
+                        DecompressDataWithHeaderWram(gMonFrontPic_ShadowLugia, dest); 
+                        break;
+                    default:
+                        DecompressDataWithHeaderWram(gSpeciesInfo[species].frontPic, dest);
+                        break;
+                }
+            }
+            else
+                DecompressDataWithHeaderWram(gSpeciesInfo[species].frontPic, dest);
+            */
             DecompressDataWithHeaderWram(gSpeciesInfo[species].frontPic, dest);
         else
             DecompressDataWithHeaderWram(gSpeciesInfo[SPECIES_NONE].frontPic, dest);
     }
     else
     {
-    #if P_GENDER_DIFFERENCES && !P_GBA_STYLE_SPECIES_GFX
+    #if P_GENDER_DIFFERENCES && !P_GBA_STYLE_SPECIES_GFX // FALSE, in default HnS settings
         if (gSpeciesInfo[species].backPicFemale != NULL && IsPersonalityFemale(species, personality))
             DecompressDataWithHeaderWram(gSpeciesInfo[species].backPicFemale, dest);
         else
     #endif
         if (gSpeciesInfo[species].backPic != NULL)
+            /*
+            // Replace the code line below with this:
+            if(isShiny && gSaveBlock3Ptr != NULL && gSaveBlock3Ptr->challengeSettings.tx_Features_ShinyColors)
+            {
+                switch(species)
+                {
+                    case SPECIES_LUGIA: // Example with Shadow Lugia
+                        DecompressDataWithHeaderWram(gMonBackPic_ShadowLugia, dest); 
+                        break;
+                    default:
+                        DecompressDataWithHeaderWram(gSpeciesInfo[species].backPic, dest);
+                        break;
+                }
+            }
+            else
+                DecompressDataWithHeaderWram(gSpeciesInfo[species].frontPic, dest);
+            */
             DecompressDataWithHeaderWram(gSpeciesInfo[species].backPic, dest);
         else
             DecompressDataWithHeaderWram(gSpeciesInfo[SPECIES_NONE].backPic, dest);

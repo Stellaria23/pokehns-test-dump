@@ -842,7 +842,7 @@ static bool8 IsDisplayMosaicActive(void);
 static void ShowYesNoWindow(s8);
 static void UpdateCloseBoxButtonTilemap(bool8);
 static void PrintMessage(u8 id);
-static void LoadDisplayMonGfx(u16 species, u32 pid, bool32 isEgg);
+static void LoadDisplayMonGfx(u16 species, u32 pid, bool32 isEgg, bool32 isShiny);
 static void SpriteCB_DisplayMonMosaic(struct Sprite *);
 static void SetPartySlotTilemap(u8, bool8);
 
@@ -4007,7 +4007,7 @@ static void CreateWaveformSprites(void)
 
 static void RefreshDisplayMonData(void)
 {
-    LoadDisplayMonGfx(sStorage->displayMonSpecies, sStorage->displayMonPersonality, sStorage->displayMonIsEgg);
+    LoadDisplayMonGfx(sStorage->displayMonSpecies, sStorage->displayMonPersonality, sStorage->displayMonIsEgg, FALSE); // Untested, may look awful
     PrintDisplayMonInfo();
     UpdateWaveformAnimation();
     ScheduleBgCopyTilemapToVram(0);
@@ -4085,14 +4085,14 @@ static void CreateDisplayMonSprite(void)
     }
 }
 
-static void LoadDisplayMonGfx(u16 species, u32 pid, bool32 isEgg)
+static void LoadDisplayMonGfx(u16 species, u32 pid, bool32 isEgg, bool32 isShiny)
 {
     if (sStorage->displayMonSprite == NULL)
         return;
 
     if (species != SPECIES_NONE)
     {
-        LoadSpecialPokePicIsEgg(sStorage->tileBuffer, species, pid, TRUE, isEgg);
+        LoadSpecialPokePicIsEgg(sStorage->tileBuffer, species, pid, TRUE, isEgg, isShiny);
         CpuCopy32(sStorage->tileBuffer, sStorage->displayMonTilePtr, MON_PIC_SIZE);
         LoadPalette(sStorage->displayMonPalette, sStorage->displayMonPalOffset, PLTT_SIZE_4BPP);
         sStorage->displayMonSprite->invisible = FALSE;
@@ -10238,7 +10238,7 @@ void UpdateSpeciesSpritePSS(struct BoxPokemon *boxMon)
     {
         if (sRefreshDisplayMonGfx)
         {
-            LoadDisplayMonGfx(species, pid, isEgg);
+            LoadDisplayMonGfx(species, pid, isEgg, isShiny);
             StartDisplayMonMosaicEffect();
             sRefreshDisplayMonGfx = FALSE;
         }
