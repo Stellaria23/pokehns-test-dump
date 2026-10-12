@@ -3109,7 +3109,7 @@ static void TradeMons(u8 playerPartyIdx, u8 partnerPartyIdx)
 
     // Check if traded mon is shiny
     // Only useful for alt shiny sprites
-    isTradedMonShiny = GetMonData(playerMon, MON_DATA_IS_SHINY) ? TRUE : FALSE;
+    isTradedMonShiny = GetMonData(playerMon, MON_DATA_IS_SHINY);
 
     if (partnerMail != MAIL_NONE)
     {
