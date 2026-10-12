@@ -259,6 +259,8 @@ static EWRAM_DATA struct {
     u8 wirelessWinBottom;
 } *sTradeAnim = NULL;
 
+static bool32 isTradedMonShiny = FALSE;
+
 static bool32 IsWirelessTrade(void);
 static void CB2_CreateTradeMenu(void);
 static void VBlankCB_TradeMenu(void);
@@ -3105,6 +3107,10 @@ static void TradeMons(u8 playerPartyIdx, u8 partnerPartyIdx)
     if (!GetMonData(playerMon, MON_DATA_IS_EGG))
         SetMonData(playerMon, MON_DATA_FRIENDSHIP, &friendship);
 
+    // Check if traded mon is shiny
+    // Only useful for alt shiny sprites
+    isTradedMonShiny = GetMonData(playerMon, MON_DATA_IS_SHINY) ? TRUE : FALSE;
+
     if (partnerMail != MAIL_NONE)
     {
         if (playerPartyIdx == PC_MON_CHOSEN)
@@ -3807,7 +3813,7 @@ static bool8 DoTradeAnim_Cable(void)
                                      gMonSpritesGfxPtr->spritesGfx[B_POSITION_OPPONENT_RIGHT],
                                      sTradeAnim->monSpecies[TRADE_PARTNER],
                                      sTradeAnim->monPersonalities[TRADE_PARTNER],
-                                     FALSE); // Will probably look awful
+                                     isTradedMonShiny); // Untested, may probably look awful
             sTradeAnim->state++;
         }
         break;
@@ -4308,7 +4314,7 @@ static bool8 DoTradeAnim_Wireless(void)
                                       gMonSpritesGfxPtr->spritesGfx[B_POSITION_OPPONENT_RIGHT],
                                       sTradeAnim->monSpecies[TRADE_PARTNER],
                                       sTradeAnim->monPersonalities[TRADE_PARTNER],
-                                      FALSE); // Will probably look awful
+                                      isTradedMonShiny); // Untested, may probably look awful
             sTradeAnim->state++;
         }
         break;
