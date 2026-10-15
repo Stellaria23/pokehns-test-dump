@@ -1312,3 +1312,6 @@ const u8 gText_Both[] = _("Both");
 const u8 gText_GreenStone[] = _("GREEN STONE");
 const u8 gText_RedStone[] = _("RED STONE");
 const u8 gText_BlueStone[] = _("BLUE STONE");
+
+const u8 gText_PokeRadarOn[] = _("The POKé RADAR has been turned on.\nYou may now find some unlikely encounters.{PAUSE_UNTIL_PRESS}");
+const u8 gText_PokeRadarOff[] = _("The POKé RADAR has been turned off.\nYou will now see the usual encounters.{PAUSE_UNTIL_PRESS}");

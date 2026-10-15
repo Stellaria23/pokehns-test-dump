@@ -2472,4 +2472,7 @@ extern const u8 gText_GreenStone[];
 extern const u8 gText_RedStone[];
 extern const u8 gText_BlueStone[];
 
+extern const u8 gText_PokeRadarOn[];
+extern const u8 gText_PokeRadarOff[];
+
 #endif // GUARD_STRINGS_H

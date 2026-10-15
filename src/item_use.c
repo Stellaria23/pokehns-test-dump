@@ -1753,4 +1753,19 @@ void ItemUseOutOfBattle_TownMap(u8 taskId)
     }
 }
 
+void ItemUseOutOfBattle_PokeRadar(u8 taskId)
+{
+    if (FlagGet(FLAG_EVENING_ENCOUNTERS))
+    {
+        PlaySE(SE_PC_OFF);
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_PokeRadarOff, CloseItemMessage);
+    }
+    else
+    {
+        PlaySE(SE_PC_LOGIN);
+        DisplayItemMessage(taskId, FONT_NORMAL, gText_PokeRadarOn, CloseItemMessage);
+    }
+    FlagToggle(FLAG_EVENING_ENCOUNTERS);
+}
+
 #undef tUsingRegisteredKeyItem
