@@ -319,6 +319,7 @@ EventScript_ResetAllMapFlags::
 
 #if IS_HNS
 EventScript_ResetAllMapFlagsHnS::
+	setflag FLAG_SYS_QUEST_MENU_GET
 	setflag FLAG_HIDE_BATTLE_TOWER_OPPONENT
 	setflag FLAG_HIDE_DEOXYS @???
 	setflag FLAG_HIDE_CONTEST_POKE_BALL @???
