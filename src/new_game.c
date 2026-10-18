@@ -53,6 +53,7 @@
 #include "constants/items.h"
 #include "difficulty.h"
 #include "follower_npc.h"
+#include "pokeride.h"
 
 extern const u8 EventScript_ResetAllMapFlags[];
 #if IS_FRLG

@@ -250,6 +250,14 @@ struct NPCFollower
 #include "constants/items.h"
 #define ITEM_FLAGS_COUNT ((ITEMS_COUNT / 8) + ((ITEMS_COUNT % 8) ? 1 : 0))
 
+struct PokeRide
+{
+    u16 monGfxId;           // Current mon graphicsId
+    u16 desiredMonGfxId;    // Desired mon graphicsId
+    u8 flyingHeight:6;
+    bool8 flyingState:1;
+};
+
 struct ChallengeSettings
 {
     // Options Plus
@@ -358,6 +366,7 @@ struct SaveBlock3
 #endif
     struct ChallengeSettings challengeSettings;
     u16 registeredItemHold;
+    struct PokeRide PokeRide;
 }; /* max size 1624 bytes */
 
 extern struct SaveBlock3 *gSaveBlock3Ptr;
