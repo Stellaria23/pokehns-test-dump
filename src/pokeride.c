@@ -1031,17 +1031,6 @@ static u8 CheckForPlayerAvatarCollision(enum Direction direction)
     return CheckForObjectEventCollision(playerObjEvent, x, y, direction, MapGridGetMetatileBehaviorAt(x, y));
 }
 
-static bool8 AreElevationsCompatible(u8 a, u8 b)
-{
-    if (a == 0 || b == 0)
-        return TRUE;
-
-    if (a != b)
-        return FALSE;
-
-    return TRUE;
-}
-
 static bool8 CheckNonPlayerObjectAt(struct ObjectEvent *playerObjEvent, s16 x, s16 y)
 {
     struct ObjectEvent *curObject;
